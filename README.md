@@ -106,28 +106,31 @@ output/<domain>/
 ### Why Better Than Firecrawl Alone
 
 | Data Dimension | Firecrawl Alone | + Playwright + SingleFile |
-|---------------|----------------|--------------------------|
-| HTML structure |  |  |
-| **CSS styles content** | ❌ Only &lt;link&gt; tags |  Computed + CSS vars + inline CSS |
-| **Pixel-perfect screenshot** | ❌ |  1440px 2x full-page |
-| **True color values** | ❌ Guessing from class names |  getComputedStyle() |
-| **Font info** | ❌ |  Complete font stack |
-| **Post-JS DOM** | ❌ Incomplete |  networkidle + wait |
-| **Design Token JSON** | ❌ |  Machine-consumable |
-| **Offline archive** | ❌ |  SingleFile with all assets |
+|---------------|:---:|:---:|
+| HTML structure | Yes | Yes |
+| **CSS styles content** | No (only &lt;link&gt; tags) | Yes (computed + CSS vars + inline) |
+| **Pixel-perfect screenshot** | No | Yes (1440px 2x full-page) |
+| **True color values** | No (guessing from class names) | Yes (getComputedStyle) |
+| **Font info** | No | Yes (complete font stack) |
+| **Post-JS DOM** | Incomplete | Yes (networkidle + wait) |
+| **Design Token JSON** | No | Yes (machine-consumable) |
+| **Offline archive** | No | Yes (SingleFile all assets) |
 
 ### Dribbble Replication Results
 
 | Parameter | Guessed (v1) | Playwright Extracted (v2) |
 |-----------|-------------|--------------------------|
-| Brand color | `#EA4C89` | `rgb(234, 76, 137)`  |
-| Font | system-ui | **Mona Sans**  |
-| Text color | `#1a1a1a` | `rgb(13, 12, 34)`  |
-| Nav height | 64px | **92px**  |
-| Nav style | sticky + blur | **relative + transparent**  |
-| Button style | pink filled | **white pill (100vmax radius)**  |
-| Max widths | 1440px | **1650/1200/618px**  |
-| Overall fidelity | ~60% | **80%+**  |
+| Brand color | `#EA4C89` | `rgb(234, 76, 137)` |
+| Font | system-ui | **Mona Sans** |
+| Text color | `#1a1a1a` | `rgb(13, 12, 34)` |
+| Nav height | 64px | **92px** |
+| Nav style | sticky + blur | **relative + transparent** |
+| Button style | pink filled | **white pill (100vmax radius)** |
+| Max widths | 1440px | **1650/1200/618px** |
+| Overall fidelity | ~60% | **80%+** |
+
+![Dribbble Replica Comparison](examples/dribbble-replica-screenshot.png)
+*Side-by-side: original Dribbble (left) vs Site Cloner replica (right)*
 
 ### Use as AI Agent Skill
 
@@ -257,28 +260,31 @@ output/<域名>/
 ### 为什么优于单独使用 Firecrawl
 
 | 数据维度 | 单用 Firecrawl | + Playwright + SingleFile |
-|---------|---------------|--------------------------|
-| HTML 结构 |  |  |
-| **CSS 样式内容** | ❌ 只有 &lt;link&gt; 标签 |  Computed + CSS 变量 + 内联 CSS |
-| **像素级截图** | ❌ |  1440px 2x 全页截图 |
-| **真实颜色值** | ❌ 从 class 名推断 |  getComputedStyle() |
-| **字体信息** | ❌ |  完整字体栈 |
-| **JS 渲染后 DOM** | ❌ 不完整 |  networkidle + 等待 |
-| **设计 Token JSON** | ❌ |  机器可直接消费 |
-| **离线完整存档** | ❌ |  SingleFile 全资源 |
+|---------|:---:|:---:|
+| HTML 结构 | 是 | 是 |
+| **CSS 样式内容** | 否（只有 link 标签） | 是（computed + CSS 变量 + 内联） |
+| **像素级截图** | 否 | 是（1440px 2x 全页） |
+| **真实颜色值** | 否（从 class 名推断） | 是（getComputedStyle） |
+| **字体信息** | 否 | 是（完整字体栈） |
+| **JS 渲染后 DOM** | 不完整 | 是（networkidle + 等待） |
+| **设计 Token JSON** | 否 | 是（机器可直接消费） |
+| **离线完整存档** | 否 | 是（SingleFile 全资源） |
 
 ### Dribbble 复刻效果对比
 
 | 参数 | 猜测版 (V1) | Playwright 实测版 (V2) |
 |------|-----------|---------------------|
-| 品牌色 | `#EA4C89` | `rgb(234, 76, 137)`  |
-| 字体 | system-ui | **Mona Sans**  |
-| 文字色 | `#1a1a1a` | `rgb(13, 12, 34)`  |
-| 导航高度 | 64px | **92px**  |
-| 导航样式 | sticky + blur | **relative + transparent**  |
-| 按钮样式 | 粉色填充 | **白色药丸 (100vmax)**  |
-| 最大宽度 | 1440px | **1650/1200/618px**  |
-| 整体复刻度 | ~60% | **80%+**  |
+| 品牌色 | `#EA4C89` | `rgb(234, 76, 137)` |
+| 字体 | system-ui | **Mona Sans** |
+| 文字色 | `#1a1a1a` | `rgb(13, 12, 34)` |
+| 导航高度 | 64px | **92px** |
+| 导航样式 | sticky + blur | **relative + transparent** |
+| 按钮样式 | 粉色填充 | **白色药丸 (100vmax)** |
+| 最大宽度 | 1440px | **1650/1200/618px** |
+| 整体复刻度 | ~60% | **80%+** |
+
+![Dribbble 复刻对比](examples/dribbble-replica-screenshot.png)
+*左：Dribbble 官网原版 / 右：Site Cloner 复刻版*
 
 ### 作为 AI Agent Skill 使用
 
