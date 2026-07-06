@@ -7,8 +7,15 @@
   <img src="https://img.shields.io/badge/platform-Win%20%7C%20Mac%20%7C%20Linux-lightgrey" alt="Platform">
 </p>
 
+<div align="center" class="lang-tabs">
+  <a href="#en-content"><b>English</b></a>
+  &nbsp;&middot;&nbsp;
+  <a href="#cn-content"><b>中文</b></a>
+</div>
+
 ---
 
+<a name="en-content"></a>
 ### What is Site Cloner?
 
 Site Cloner is a **fully automated website design reverse-engineering toolkit** that combines three free, open-source tools into a single data pipeline. Given any URL, it extracts the complete visual design system — colors, typography, spacing, CSS variables, layout rules — and generates a pixel-perfect screenshot, structured design tokens, and a full offline archive.
@@ -158,10 +165,11 @@ User: "Clone the design of https://stripe.com"
 
 MIT (c) 2026
 
+[English](#en-content) | [中文](#cn-content)
+
 ---
 
-<details>
-<summary><b>中文文档 / Chinese Documentation</b></summary>
+<a name="cn-content"></a>
 
 ### Site Cloner 是什么？
 
@@ -287,4 +295,4 @@ Agent 即可在用户要求分析或复刻网站时自动调用 `clone-site.js`�
 
 MIT (c) 2026
 
-</details>
+[English](#en-content) | [中文](#cn-content)
