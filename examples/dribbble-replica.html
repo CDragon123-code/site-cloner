@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dribbble — Discover the World's Top Designers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* 从 Playwright computed styles 提取的真实 token */
+    --pink: #EA4C89;
+    --pink-600: #E44A85;
+    --pink-700: #BB3D6E;
+    --pink-100: #FCE7EF;
+    --pink-50: #FEF8FA;
+
+    --text-primary: #0D0C22;
+    --text-secondary: #655C7A;
+    --text-muted: #9E9EA7;
+    --text-tertiary: #524B63;
+
+    --bg-white: #FFFFFF;
+    --bg-warm: #FDFCFB;
+    --bg-light: #F3F3F6;
+    --border: #E7E7E9;
+
+    --font: 'Inter', 'Mona Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --nav-height: 92px;
+    --max-width: 1650px;
+    --content-width: 1200px;
+    --narrow-width: 618px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--font);
+    color: var(--text-primary);
+    background: var(--bg-white);
+    font-size: 16px;
+    line-height: 28px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+
+  /* ─── Promo Banner ─── */
+  .promo-banner {
+    background: var(--pink);
+    color: white;
+    text-align: center;
+    padding: 10px 24px;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .promo-banner a {
+    color: white;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  /* ─── Navigation ─── */
+  .site-nav {
+    height: var(--nav-height);
+    display: flex;
+    align-items: center;
+    padding: 0 32px;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    position: relative;
+    background: transparent;
+  }
+
+  .site-nav__logo {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--text-primary);
+    flex-shrink: 0;
+  }
+
+  .site-nav__logo svg { width: 28px; height: 28px; flex-shrink: 0; }
+
+  /* Basketball dribbble icon */
+  .site-nav__logo-icon {
+    width: 28px; height: 28px;
+    background: var(--pink);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+    font-weight: 800;
+  }
+
+  .nav-dropdowns {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: 32px;
+  }
+
+  .nav-dropdown-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 14px;
+    border: none;
+    background: none;
+    font-family: var(--font);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background 0.15s;
+  }
+
+  .nav-dropdown-btn:hover { background: var(--bg-light); }
+  .nav-dropdown-btn svg { width: 12px; height: 12px; color: var(--text-muted); }
+
+  .nav-right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    padding: 0 20px;
+    border: none;
+    border-radius: 100vmax;
+    font-family: var(--font);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+
+  .btn-pill--outline {
+    background: var(--bg-white);
+    color: var(--text-primary);
+    border: 1.5px solid var(--border);
+  }
+
+  .btn-pill--outline:hover { border-color: var(--text-muted); }
+
+  .btn-pill--ghost {
+    background: transparent;
+    color: var(--text-primary);
+  }
+
+  .btn-pill--ghost:hover { background: var(--bg-light); }
+
+  .btn-pill--dark {
+    background: var(--text-primary);
+    color: var(--bg-white);
+  }
+
+  .btn-pill--dark:hover { background: var(--text-tertiary); }
+
+  /* ─── Hero Section ─── */
+  .hero {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 48px 32px 0;
+  }
+
+  .hero-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 48px;
+  }
+
+  .hero-tab {
+    padding: 10px 24px;
+    border-radius: 100vmax;
+    font-size: 14px;
+    font-weight: 600;
+    background: var(--bg-light);
+    color: var(--text-secondary);
+    cursor: pointer;
+    border: none;
+    font-family: var(--font);
+  }
+
+  .hero-tab.active {
+    background: var(--text-primary);
+    color: var(--bg-white);
+  }
+
+  .hero-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+
+  .hero-text {
+    max-width: var(--narrow-width);
+  }
+
+  .hero-text h1 {
+    font-size: clamp(36px, 5vw, 60px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin-bottom: 24px;
+  }
+
+  .hero-text h1 .rotating {
+    color: var(--pink);
+    position: relative;
+  }
+
+  .hero-text h1 .rotating::after {
+    content: '';
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    background: var(--pink);
+    margin-left: 2px;
+    vertical-align: middle;
+    animation: blink 0.8s infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  .hero-features {
+    list-style: none;
+    margin-bottom: 32px;
+  }
+
+  .hero-features li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 6px 0;
+    font-size: 16px;
+    color: var(--text-secondary);
+  }
+
+  .hero-features li::before {
+    content: '✓';
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--pink);
+    flex-shrink: 0;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .hero-visual {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-mockup {
+    width: 100%;
+    max-width: 560px;
+    aspect-ratio: 4/3;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+    position: relative;
+  }
+
+  .hero-mockup__header {
+    height: 36px;
+    background: var(--bg-light);
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    gap: 8px;
+  }
+
+  .hero-mockup__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .hero-mockup__dot:nth-child(1) { background: #FF5F57; }
+  .hero-mockup__dot:nth-child(2) { background: #FFBD2E; }
+  .hero-mockup__dot:nth-child(3) { background: #28CA41; }
+
+  .hero-mockup__body {
+    height: calc(100% - 36px);
+    background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+  }
+
+  .hero-mockup__design {
+    background: var(--bg-white);
+    border-radius: 12px;
+    padding: 24px;
+    width: 80%;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  }
+
+  .hero-mockup__design-line {
+    height: 8px;
+    border-radius: 4px;
+    background: var(--bg-light);
+    margin-bottom: 12px;
+  }
+
+  .hero-mockup__design-line:nth-child(1) { width: 60%; }
+  .hero-mockup__design-line:nth-child(2) { width: 100%; }
+  .hero-mockup__design-line:nth-child(3) { width: 80%; }
+  .hero-mockup__design-line:nth-child(4) { width: 40%; background: var(--pink-100); }
+  .hero-mockup__design-line:nth-child(5) { width: 90%; }
+  .hero-mockup__design-line:nth-child(6) { width: 50%; margin-top: 24px; background: var(--pink); }
+
+  /* ─── Designers Pool ─── */
+  .designers-pool {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 32px 32px 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .designers-pool__avatars {
+    display: flex;
+  }
+
+  .designers-pool__avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2px solid var(--bg-white);
+    object-fit: cover;
+    margin-left: -8px;
+  }
+
+  .designers-pool__avatar:first-child { margin-left: 0; }
+
+  .designers-pool__text {
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+
+  .designers-pool__text strong { color: var(--text-primary); }
+
+  /* ─── Shot Grid Section ─── */
+  .shots-section {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 48px 32px 64px;
+  }
+
+  .shots-section__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+  }
+
+  .shots-section__title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .shots-section__filters {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .filter-pill {
+    padding: 8px 18px;
+    border: 1.5px solid var(--border);
+    border-radius: 100vmax;
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    background: var(--bg-white);
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+
+  .filter-pill:hover {
+    border-color: var(--text-muted);
+    color: var(--text-primary);
+  }
+
+  .filter-pill.active {
+    background: var(--text-primary);
+    color: var(--bg-white);
+    border-color: var(--text-primary);
+  }
+
+  .shot-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+  }
+
+  /* Shot Card */
+  .shot-card {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .shot-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+  }
+
+  .shot-card__image {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    display: block;
+  }
+
+  .shot-card__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .shot-card:hover .shot-card__overlay { opacity: 1; }
+
+  .shot-card__title {
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .shot-card__stats {
+    display: flex;
+    gap: 16px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.9);
+    font-weight: 500;
+  }
+
+  .shot-card__info {
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--bg-white);
+  }
+
+  .shot-card__avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .shot-card__author {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .shot-card__badge {
+    margin-left: auto;
+    padding: 3px 8px;
+    background: var(--bg-light);
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* Shot placeholders */
+  .shot-placeholder { width: 100%; aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; font-size: 48px; }
+  .s1 { background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%); }
+  .s2 { background: linear-gradient(135deg, #EA4C89 0%, #E44A85 50%, #FCE7EF 100%); }
+  .s3 { background: linear-gradient(135deg, #2d3436 0%, #636e72 100%); }
+  .s4 { background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%); }
+  .s5 { background: linear-gradient(135deg, #00b894 0%, #55efc4 100%); }
+  .s6 { background: linear-gradient(135deg, #fdcb6e 0%, #ffeaa7 100%); }
+  .s7 { background: linear-gradient(135deg, #e17055 0%, #fab1a0 100%); }
+  .s8 { background: linear-gradient(135deg, #0984e3 0%, #74b9ff 100%); }
+
+  .shot-avatar {
+    width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+  }
+  .av1 { background: linear-gradient(135deg, #FFE1E1, #FFB5B5); }
+  .av2 { background: linear-gradient(135deg, #E3EBFD, #B5CBFD); }
+  .av3 { background: linear-gradient(135deg, #EDDDFB, #D4B5FB); }
+  .av4 { background: linear-gradient(135deg, #FCE4D6, #FAC4A5); }
+
+  /* ─── Category Marquee ─── */
+  .marquee-section {
+    padding: 64px 0 48px;
+    border-top: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  .marquee-section h2 {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 32px;
+    color: var(--text-primary);
+  }
+
+  .marquee-track {
+    display: flex;
+    gap: 18px;
+    animation: marquee 35s linear infinite;
+    width: max-content;
+  }
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .marquee-card {
+    position: relative;
+    width: 220px;
+    height: 160px;
+    border-radius: 16px;
+    overflow: visible;
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  .marquee-card:hover { transform: scale(1.04); }
+
+  .marquee-card__stack {
+    position: absolute;
+    inset: 8px 8px -6px -6px;
+    border-radius: 18px;
+    z-index: 0;
+  }
+
+  .marquee-card__media {
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .marquee-card__title {
+    position: absolute;
+    bottom: 14px;
+    left: 18px;
+    z-index: 2;
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  }
+
+  .mc-blue .marquee-card__stack { background: #E3EBFD; }
+  .mc-green .marquee-card__stack { background: #EDF3D8; }
+  .mc-lime .marquee-card__stack { background: #E6FDC9; }
+  .mc-cyan .marquee-card__stack { background: #E6FBFE; }
+  .mc-mint .marquee-card__stack { background: #DDFDE8; }
+  .mc-lavender .marquee-card__stack { background: #EDDDFB; }
+  .mc-peach .marquee-card__stack { background: #FCE4D6; }
+  .mc-pink .marquee-card__stack { background: #FFE1E1; }
+
+  /* ─── CTA Banner ─── */
+  .cta-banner {
+    max-width: var(--content-width);
+    margin: 0 auto 64px;
+    padding: 0 32px;
+  }
+
+  .cta-banner__inner {
+    background: var(--pink-50);
+    border-radius: 24px;
+    padding: 48px;
+    text-align: center;
+    border: 1px solid var(--pink-100);
+  }
+
+  .cta-banner__inner h2 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--text-primary);
+  }
+
+  .cta-banner__inner p {
+    font-size: 18px;
+    color: var(--text-secondary);
+    margin-bottom: 32px;
+  }
+
+  /* ─── Footer ─── */
+  .site-footer {
+    background: var(--bg-warm);
+    border-top: 1px solid var(--border);
+    padding: 56px 32px 40px;
+  }
+
+  .site-footer__container {
+    max-width: var(--content-width);
+    margin: 0 auto;
+  }
+
+  .site-footer__upper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 40px;
+    margin-bottom: 40px;
+  }
+
+  .site-footer__logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--pink);
+    font-weight: 700;
+    font-size: 18px;
+  }
+
+  .site-footer__links {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 28px;
+  }
+
+  .site-footer__link {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    transition: color 0.15s;
+  }
+
+  .site-footer__link:hover { color: var(--text-primary); }
+
+  .site-footer__social {
+    display: flex;
+    gap: 14px;
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+
+  .site-footer__social a:hover { color: var(--text-primary); }
+
+  .site-footer__lower {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 24px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+  }
+
+  .site-footer__lower-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 18px;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  .site-footer__lower-list a {
+    color: var(--text-muted);
+    transition: color 0.15s;
+  }
+
+  .site-footer__lower-list a:hover { color: var(--text-primary); }
+
+  /* ─── Responsive ─── */
+  @media (max-width: 900px) {
+    .nav-dropdowns { display: none; }
+    .hero-content { grid-template-columns: 1fr; gap: 40px; }
+    .hero-visual { order: -1; }
+    .hero-mockup { max-width: 100%; }
+    .shot-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+    .site-footer__upper { flex-direction: column; }
+    .hero-text h1 { font-size: 32px; }
+  }
+
+  @media (max-width: 640px) {
+    .site-nav { padding: 0 16px; height: 64px; }
+    .promo-banner { font-size: 12px; }
+    .hero { padding: 32px 16px 0; }
+    .shots-section { padding: 32px 16px 48px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .designers-pool { padding: 16px; }
+    .cta-banner__inner { padding: 32px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ Promo Banner ═══ -->
+<div class="promo-banner">
+  Get 20% (up to $100) off your first payment for design and development services on Dribbble! Use code <strong>WELCOME20</strong> 🎉
+  <a href="#">Get Started →</a>
+</div>
+
+<!-- ═══ Navigation ═══ -->
+<nav class="site-nav">
+  <a href="#" class="site-nav__logo">
+    <span class="site-nav__logo-icon">D</span>
+    Dribbble
+  </a>
+
+  <div class="nav-dropdowns">
+    <button class="nav-dropdown-btn">Shots <svg viewBox="0 0 12 12"><path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button>
+    <button class="nav-dropdown-btn">Designers <svg viewBox="0 0 12 12"><path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button>
+    <button class="nav-dropdown-btn">Services <svg viewBox="0 0 12 12"><path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button>
+  </div>
+
+  <div class="nav-right">
+    <button class="btn-pill btn-pill--outline" style="height:40px;font-size:13px;padding:0 18px;">Start Project Brief</button>
+    <button class="btn-pill btn-pill--ghost" style="height:40px;font-size:14px;">Sign up</button>
+    <button class="btn-pill btn-pill--dark" style="height:40px;font-size:14px;">Log in</button>
+  </div>
+</nav>
+
+<!-- ═══ Hero ═══ -->
+<section class="hero">
+  <div class="hero-tabs">
+    <button class="hero-tab active">Hire Talent</button>
+    <button class="hero-tab">Get Hired</button>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-text">
+      <h1>Work with the world's best in <span class="rotating">web design</span></h1>
+      <ul class="hero-features">
+        <li>Generate your brief and receive proposals – for free</li>
+        <li>Browse real-world design and development work</li>
+        <li>Hire top-rated freelancers and agencies with confidence</li>
+      </ul>
+      <div class="hero-actions">
+        <button class="btn-pill btn-pill--dark" style="height:48px;padding:0 28px;font-size:15px;">Start Your Project Brief</button>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hero-mockup">
+        <div class="hero-mockup__header">
+          <div class="hero-mockup__dot"></div>
+          <div class="hero-mockup__dot"></div>
+          <div class="hero-mockup__dot"></div>
+        </div>
+        <div class="hero-mockup__body">
+          <div class="hero-mockup__design">
+            <div class="hero-mockup__design-line"></div>
+            <div class="hero-mockup__design-line"></div>
+            <div class="hero-mockup__design-line"></div>
+            <div class="hero-mockup__design-line"></div>
+            <div class="hero-mockup__design-line"></div>
+            <div class="hero-mockup__design-line"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Designer Avatars Pool ═══ -->
+<div class="designers-pool">
+  <div class="designers-pool__avatars">
+    <div class="designers-pool__avatar av1" style="background:linear-gradient(135deg,#FFE1E1,#FFB5B5)"></div>
+    <div class="designers-pool__avatar av2" style="background:linear-gradient(135deg,#E3EBFD,#B5CBFD)"></div>
+    <div class="designers-pool__avatar av3" style="background:linear-gradient(135deg,#EDDDFB,#D4B5FB)"></div>
+    <div class="designers-pool__avatar av4" style="background:linear-gradient(135deg,#FCE4D6,#FAC4A5)"></div>
+    <div class="designers-pool__avatar av1" style="background:linear-gradient(135deg,#DDFDE8,#A8F0C6)"></div>
+  </div>
+  <span class="designers-pool__text"><strong>Outloud, George Railean, Animoox Studio</strong> and millions more</span>
+</div>
+
+<!-- ═══ Shots Grid ═══ -->
+<section class="shots-section">
+  <div class="shots-section__header">
+    <h2 class="shots-section__title">Popular Shots</h2>
+    <div class="shots-section__filters">
+      <button class="filter-pill active">Popular</button>
+      <button class="filter-pill">New &amp; Noteworthy</button>
+      <button class="filter-pill">Following</button>
+      <button class="filter-pill">Product Design</button>
+    </div>
+  </div>
+
+  <div class="shot-grid">
+    <div class="shot-card">
+      <div class="shot-placeholder s1">🎨</div>
+      <div class="shot-card__overlay">
+        <div class="shot-card__title">Dashboard Dark Mode</div>
+        <div class="shot-card__stats">❤️ 2.4k &nbsp; 👁 18k</div>
+      </div>
+      <div class="shot-card__info">
+        <div class="shot-avatar av1"></div>
+        <span class="shot-card__author">Alex Chen</span>
+        <span class="shot-card__badge">Pro</span>
+      </div>
+    </div>
+
+    <div class="shot-card">
+      <div class="shot-placeholder s2">🎯</div>
+      <div class="shot-card__overlay">
+        <div class="shot-card__title">Brand Identity System</div>
+        <div class="shot-card__stats">❤️ 3.1k &nbsp; 👁 22k</div>
+      </div>
+      <div class="shot-card__info">
+        <div class="shot-avatar av2"></div>
+        <span class="shot-card__author">Sarah Kim</span>
+        <span class="shot-card__badge">Pro</span>
+      </div>
+    </div>
+
+    <div class="shot-card">
+      <div class="shot-placeholder s3">📱</div>
+      <div class="shot-card__overlay">
+        <div class="shot-card__title">Mobile Onboarding Flow</div>
+        <div class="shot-card__stats">❤️ 1.8k &nbsp; 👁 14k</div>
+      </div>
+      <div class="shot-card__info">
+        <div class="shot-avatar av3"></div>
+        <span class="shot-card__author">Maria G.</span>
+        <span class="shot-card__badge">Team</span>
+      </div>
+    </div>
+
+    <div class="shot-card">
+      <div class="shot-placeholder s4">💻</div>
+      <div class="shot-card__overlay">
+        <div class="shot-card__title">E-Commerce Redesign</div>
+        <div class="shot-card__stats">❤️ 4.2k &nbsp; 👁 31k</div>
+      </div>
+      <div class="shot-card__info">
+        <div class="shot-avatar av4"></div>
+        <span class="shot-card__author">James W.</span>
+        <span class="shot-card__badge">Pro</span>
+      </div>
+    </div>
+
+    <div class="shot-card">
+      <div class="shot-placeholder s5">🎮</div>
+      <div class="shot-card__overlay">
+        <div class="shot-card__title">3D Character Design</div>
+        <div class="shot-card__stats">❤️ 5.6k &nbsp; 👁 42k</div>
+      </div>
+      <div class="shot-card__info">
+        <div class="shot-avatar av1"></div>
+        <span class="shot-card__author">Yuki T.</span>
+        <span class="shot-card__badge">Pro</span>
+      </div>
+    </div>
+
+    <div class="shot-card">
+      <div class="shot-placeholder s6">📐</div>
+      <div class="shot-card__overlay">
+        <div class="shot-card__title">Landing Page Concept</div>
+        <div class="shot-card__stats">❤️ 2.9k &nbsp; 👁 19k</div>
+      </div>
+      <div class="shot-card__info">
+        <div class="shot-avatar av2"></div>
+        <span class="shot-card__author">David P.</span>
+      </div>
+    </div>
+
+    <div class="shot-card">
+      <div class="shot-placeholder s7">🎨</div>
+      <div class="shot-card__overlay">
+        <div class="shot-card__title">Icon Pack Vol. III</div>
+        <div class="shot-card__stats">❤️ 1.5k &nbsp; 👁 11k</div>
+      </div>
+      <div class="shot-card__info">
+        <div class="shot-avatar av3"></div>
+        <span class="shot-card__author">Ana S.</span>
+      </div>
+    </div>
+
+    <div class="shot-card">
+      <div class="shot-placeholder s8">📊</div>
+      <div class="shot-card__overlay">
+        <div class="shot-card__title">Analytics Dashboard</div>
+        <div class="shot-card__stats">❤️ 3.3k &nbsp; 👁 26k</div>
+      </div>
+      <div class="shot-card__info">
+        <div class="shot-avatar av4"></div>
+        <span class="shot-card__author">Tom B.</span>
+        <span class="shot-card__badge">Pro</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Category Marquee ═══ -->
+<section class="marquee-section">
+  <h2>Explore Design Categories</h2>
+  <div class="marquee-track">
+    <div class="marquee-card mc-blue"><div class="marquee-card__stack"></div><div class="marquee-card__media"><div class="shot-placeholder s1" style="aspect-ratio:unset;height:100%">🎬</div></div><div class="marquee-card__title">Animation</div></div>
+    <div class="marquee-card mc-green"><div class="marquee-card__stack"></div><div class="marquee-card__media"><div class="shot-placeholder s5" style="aspect-ratio:unset;height:100%">🏷</div></div><div class="marquee-card__title">Branding</div></div>
+    <div class="marquee-card mc-lime"><div class="marquee-card__stack"></div><div class="marquee-card__media"><div class="shot-placeholder s7" style="aspect-ratio:unset;height:100%">🖌</div></div><div class="marquee-card__title">Illustration</div></div>
+    <div class="marquee-card mc-cyan"><div class="marquee-card__stack"></div><div class="marquee-card__media"><div class="shot-placeholder s3" style="aspect-ratio:unset;height:100%">📱</div></div><div class="marquee-card__title">Mobile</div></div>
+    <div class="marquee-card mc-mint"><div class="marquee-card__stack"></div><div class="marquee-card__media"><div class="shot-placeholder s4" style="aspect-ratio:unset;height:100%">🌐</div></div><div class="marquee-card__title">Web Design</div></div>
+    <div class="marquee-card mc-lavender"><div class="marquee-card__stack"></div><div class="marquee-card__media"><div class="shot-placeholder s6" style="aspect-ratio:unset;height:100%">🔤</div></div><div class="marquee-card__title">Typography</div></div>
+    <div class="marquee-card mc-peach"><div class="marquee-card__stack"></div><div class="marquee-card__media"><div class="shot-placeholder s8" style="aspect-ratio:unset;height:100%">🖨</div></div><div class="marquee-card__title">Print</div></div>
+    <div class="marquee-card mc-pink"><div class="marquee-card__stack"></div><div class="marquee-card__media"><div class="shot-placeholder s2" style="aspect-ratio:unset;height:100%">📦</div></div><div class="marquee-card__title">Product</div></div>
+    <!-- Duplicate for seamless -->
+    <div class="marquee-card mc-blue"><div class="marquee-card__stack"></div><div class="marquee-card__media"><div class="shot-placeholder s1" style="aspect-ratio:unset;height:100%">🎬</div></div><div class="marquee-card__title">Animation</div></div>
+    <div class="marquee-card mc-green"><div class="marquee-card__stack"></div><div class="marquee-card__media"><div class="shot-placeholder s5" style="aspect-ratio:unset;height:100%">🏷</div></div><div class="marquee-card__title">Branding</div></div>
+    <div class="marquee-card mc-lime"><div class="marquee-card__stack"></div><div class="marquee-card__media"><div class="shot-placeholder s7" style="aspect-ratio:unset;height:100%">🖌</div></div><div class="marquee-card__title">Illustration</div></div>
+    <div class="marquee-card mc-cyan"><div class="marquee-card__stack"></div><div class="marquee-card__media"><div class="shot-placeholder s3" style="aspect-ratio:unset;height:100%">📱</div></div><div class="marquee-card__title">Mobile</div></div>
+    <div class="marquee-card mc-mint"><div class="marquee-card__stack"></div><div class="marquee-card__media"><div class="shot-placeholder s4" style="aspect-ratio:unset;height:100%">🌐</div></div><div class="marquee-card__title">Web Design</div></div>
+    <div class="marquee-card mc-lavender"><div class="marquee-card__stack"></div><div class="marquee-card__media"><div class="shot-placeholder s6" style="aspect-ratio:unset;height:100%">🔤</div></div><div class="marquee-card__title">Typography</div></div>
+    <div class="marquee-card mc-peach"><div class="marquee-card__stack"></div><div class="marquee-card__media"><div class="shot-placeholder s8" style="aspect-ratio:unset;height:100%">🖨</div></div><div class="marquee-card__title">Print</div></div>
+    <div class="marquee-card mc-pink"><div class="marquee-card__stack"></div><div class="marquee-card__media"><div class="shot-placeholder s2" style="aspect-ratio:unset;height:100%">📦</div></div><div class="marquee-card__title">Product</div></div>
+  </div>
+</section>
+
+<!-- ═══ CTA Banner ═══ -->
+<div class="cta-banner">
+  <div class="cta-banner__inner">
+    <h2>Find your next design talent on Dribbble</h2>
+    <p>Connect with millions of top-rated designers and agencies around the world.</p>
+    <button class="btn-pill btn-pill--dark" style="height:48px;padding:0 32px;font-size:15px;">Start Your Project Brief</button>
+  </div>
+</div>
+
+<!-- ═══ Footer ═══ -->
+<footer class="site-footer">
+  <div class="site-footer__container">
+    <div class="site-footer__upper">
+      <a href="#" class="site-footer__logo">
+        <span class="site-nav__logo-icon" style="width:24px;height:24px;font-size:12px;">D</span>
+        Dribbble
+      </a>
+
+      <ul class="site-footer__links">
+        <li><a href="#" class="site-footer__link">For designers</a></li>
+        <li><a href="#" class="site-footer__link">Hire talent</a></li>
+        <li><a href="#" class="site-footer__link">Inspiration</a></li>
+        <li><a href="#" class="site-footer__link">Advertising</a></li>
+        <li><a href="#" class="site-footer__link">Blog</a></li>
+        <li><a href="#" class="site-footer__link">About</a></li>
+        <li><a href="#" class="site-footer__link">Careers</a></li>
+        <li><a href="#" class="site-footer__link">Support</a></li>
+      </ul>
+
+      <div class="site-footer__social">
+        <a href="#">𝕏</a>
+        <a href="#">f</a>
+        <a href="#">📷</a>
+        <a href="#">📌</a>
+      </div>
+    </div>
+
+    <div class="site-footer__lower">
+      <ul class="site-footer__lower-list">
+        <li>© 2026 Dribbble</li>
+        <li><a href="#">Terms</a></li>
+        <li><a href="#">Privacy</a></li>
+        <li><a href="#">Cookies</a></li>
+      </ul>
+      <ul class="site-footer__lower-list">
+        <li><a href="#">Jobs</a></li>
+        <li><a href="#">Designers</a></li>
+        <li><a href="#">Freelancers</a></li>
+        <li><a href="#">Tags</a></li>
+        <li><a href="#">Places</a></li>
+        <li><a href="#">Resources</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
