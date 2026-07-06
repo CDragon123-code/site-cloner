@@ -129,8 +129,8 @@ output/<domain>/
 | Max widths | 1440px | **1650/1200/618px** |
 | Overall fidelity | ~60% | **80%+** |
 
-![Dribbble Replica Comparison](examples/dribbble-replica-screenshot.png)
-*Side-by-side: original Dribbble (left) vs Site Cloner replica (right)*
+![Dribbble Replica](examples/dribbble-replica-screenshot.png)
+*Replica result: Site Cloner output based on extracted design tokens*
 
 ### Use as AI Agent Skill
 
@@ -283,8 +283,8 @@ output/<域名>/
 | 最大宽度 | 1440px | **1650/1200/618px** |
 | 整体复刻度 | ~60% | **80%+** |
 
-![Dribbble 复刻对比](examples/dribbble-replica-screenshot.png)
-*左：Dribbble 官网原版 / 右：Site Cloner 复刻版*
+![Dribbble 复刻效果](examples/dribbble-replica-screenshot.png)
+*Site Cloner 基于提取的设计 Token 生成的复刻页面*
 
 ### 作为 AI Agent Skill 使用
 
