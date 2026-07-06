@@ -1,4 +1,4 @@
----
+﻿---
 name: site-cloner
 description: |
   Website design cloning toolkit. Combines Firecrawl + Playwright + SingleFile — three free, 
@@ -14,8 +14,8 @@ description: |
 
 # Site Cloner — 网站设计克隆 / Website Design Cloner
 
-> 🇬🇧 AI-powered website design reverse-engineering pipeline  
-> 🇨🇳 AI 驱动的网站设计逆向工程管道
+>  AI-powered website design reverse-engineering pipeline  
+>  AI 驱动的网站设计逆向工程管道
 
 ## Overview / 概述
 
@@ -48,19 +48,19 @@ node scripts/clone-site.js https://dribbble.com --output ./clone-output
 
 ```
 output/<domain>/
-├── screenshot.png          🖼  Full-page screenshot / 全页截图
-├── design-tokens.json      🎨  Complete design tokens / 完整设计参数
-├── design-report.md        📊  Analysis report / 分析报告
-├── firecrawl-raw.html      🏗  JS-rendered HTML / JS 渲染后 HTML
-├── structure.md            📝  Markdown content / Markdown 内容
-├── styles-computed.css     💅  All CSS merged / 所有 CSS 合并
-├── original.html           📦  Offline archive / 离线存档
-└── replica.html            🎯  Replica framework / 复刻框架
+├── screenshot.png            Full-page screenshot / 全页截图
+├── design-tokens.json        Complete design tokens / 完整设计参数
+├── design-report.md          Analysis report / 分析报告
+├── firecrawl-raw.html        JS-rendered HTML / JS 渲染后 HTML
+├── structure.md              Markdown content / Markdown 内容
+├── styles-computed.css       All CSS merged / 所有 CSS 合并
+├── original.html             Offline archive / 离线存档
+└── replica.html              Replica framework / 复刻框架
 ```
 
 ## What It Extracts / 提取内容
 
-| 🇬🇧 Dimension | 🇨🇳 维度 | Method / 方法 |
+|  Dimension |  维度 | Method / 方法 |
 |---------------|---------|---------------|
 | Body font & size | 正文字体和大小 | `getComputedStyle(document.body)` |
 | Text color | 文字颜色 | Computed `color` |
